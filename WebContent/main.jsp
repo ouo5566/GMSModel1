@@ -3,12 +3,8 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date" %>
 
-<%!
-	int a = 4, b = 5, c = 0;
-	String date = "";
-%>
+<%! String date="";%>
 <%
-	c = a + b;
 	date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 %>
 <!doctype html>
@@ -27,10 +23,8 @@
 		<tr>
 			<td class="width-70per"><img class="width-60per margin-auto" src="img/home/lighthouse.jpg" alt="" /></td>
 			<td>
-			<a href="jsp/login/user-login.jsp"><button id="main-tab-Layout-user-butt">USER</button></a>
+			<a href="jsp/login/user-login-form.jsp"><button id="main-tab-Layout-user-butt">USER</button></a>
 			<a href="jsp/login/admin-login.jsp"><button id="main-tab-Layout-admin-butt">ADMIN</button></a>
-			<br><%=a %>
-			<br><%=c %>
 			</td>
 		</tr>
 		<tr class="height-100px">
