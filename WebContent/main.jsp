@@ -15,7 +15,6 @@
 	<link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-	<h6 class="align-right"><%=date %></h6>
 	<table id="main-tab-Layout" class="width-80per height-650px margin-auto">
 		<tr class="height-100px">
 			<th colspan="2">GMS</th>
@@ -23,13 +22,15 @@
 		<tr>
 			<td class="width-70per"><img class="width-60per margin-auto" src="img/home/lighthouse.jpg" alt="" /></td>
 			<td>
-			<a href="jsp/login/user-login-form.jsp"><button id="main-tab-Layout-user-butt">USER</button></a>
-			<a href="jsp/login/admin-login.jsp"><button id="main-tab-Layout-admin-butt">ADMIN</button></a>
+			<a href="jsp/login/user-login-form.jsp"><button class="butt">USER</button></a><br>
+			<a href="jsp/login/admin-login.jsp"><button class="butt">ADMIN</button></a><br>
+			<a href="jsp/join/join-form.jsp"><button class="butt">JOIN</button></a>
 			</td>
 		</tr>
 		<tr class="height-100px">
 			<td colspan="2">ADDRESS</td>
 		</tr>
 	</table>
+<h6 class="align-center"><%=date %></h6>
 </body>
 </html>

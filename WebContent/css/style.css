@@ -9,12 +9,12 @@
 .margin-auto {margin: 0 auto}
 .align-right {text-align:right}
 .align-left{text-align:left}
+.align-center{text-align:center}
+.butt{background-color:#ffe6e6; width:150px; height:50px; color:white; font-size:100%}
 table, th, td {border : 1px solid white;}
 th, td{font-size : 200%;text-align : center;}
 /* main */
 #main-tab-Layout {background-color:#e6f9ff}
-#main-tab-Layout-user-butt{background-color:#ffe6e6; width:150px; height:50px; color:white; font-size:100%}
-#main-tab-Layout-admin-butt{background-color:#ffe6e6; width:150px; height:50px; color:white; font-size:100%}
 /* user */
 #main-tab-Layout-main-butt{background-color:#ffe6e6; width:150px; height:50px; color:white; font-size:100%}
 #user-login-layout{border : 3px solid white; margin: 50px auto}
