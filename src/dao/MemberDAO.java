@@ -5,7 +5,7 @@ import domain.*;
 public interface MemberDAO {
 	public void insertMember(MemberBean member);
 	public List<MemberBean> selectMemberAll();
-	public MemberBean selectByWord(String word);
+	public MemberBean selectById(String id);
 	public MemberBean selectById(MemberBean member);
 	public String selectMemberCount();
 	public void updateMember(MemberBean member);

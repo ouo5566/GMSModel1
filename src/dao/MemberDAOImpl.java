@@ -2,10 +2,9 @@ package dao;
 
 import java.util.*;
 import domain.*;
+import enums.MemberQuery;
 import enums.Vendor;
-import factory.Database;
 import factory.DatabaseFactory;
-import factory.Oracle;
 import pool.DBConstants;
 
 import java.sql.*;
@@ -18,12 +17,9 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void insertMember(MemberBean member) {
 		try {
-			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
-					.getConnection().createStatement().executeQuery(
-							String.format(" INSERT INTO MEMBER "
-									+ " (MEMBER_ID, MEMBER_PW, NAME, SSN) "
-									+ " VALUES "
-									+ " ('%s','%s','%s','%s') ",
+			DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+					.getConnection().createStatement().executeUpdate(
+							String.format(MemberQuery.INSERT_MEMBER.toString(),
 									member.getMemberId(), member.getPassword(), member.getName(), member.getSsn()));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,18 +31,15 @@ public class MemberDAOImpl implements MemberDAO{
 		return null;
 	}
 	@Override
-	public MemberBean selectByWord(String word) {
+	public MemberBean selectById(String id) {
 		System.out.println("--아이디찾기--");
-		System.out.println(word);
+		System.out.println(id);
 		MemberBean mem = null;
 		try {
 			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
 					.getConnection().createStatement().executeQuery(
-							String.format(
-							"  SELECT MEMBER_ID USERID " +
-									"  FROM MEMBER " +
-									"  WHERE MEMBER_ID LIKE '%s'"
-								    , word));
+							String.format(MemberQuery.SELECT_OVERLAP_ID.toString()
+									, id));
 			System.out.println("--쿼리실행--");
 			if(rs.next()) {
 				do{
@@ -57,6 +50,9 @@ public class MemberDAOImpl implements MemberDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("--쿼리끝--");
+		System.out.println("--mem--");
+		System.out.println(mem);
 		return mem;
 	}
 	
@@ -82,17 +78,8 @@ public class MemberDAOImpl implements MemberDAO{
 		try {
 			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
 					.getConnection().createStatement().executeQuery(
-							String.format(
-									"  SELECT MEMBER_ID USERID, " +
-								    "  TEAM_ID TEAMID, " +
-								    "  NAME, " +
-								    "  SSN, " +
-								    "  ROLL, " +
-								    "  MEMBER_PW PW " +
-									"  FROM MEMBER " +
-									"  WHERE MEMBER_ID LIKE '%s' " +
-								    "  AND MEMBER_PW LIKE '%s'"
-								    , member.getMemberId() , member.getPassword() ));
+							String.format(MemberQuery.LOGIN.toString()
+									, member.getMemberId() , member.getPassword() ));
 			if(rs.next()) {
 				do{
 					mem = new MemberBean();
@@ -116,11 +103,7 @@ public class MemberDAOImpl implements MemberDAO{
 		try {
 			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
 					.getConnection().createStatement().executeQuery(
-							String.format(
-									"  SELECT MEMBER_ID USERID " +
-									"  FROM MEMBER " +
-									"  WHERE NAME LIKE '%s' " +
-								    "  AND SSN LIKE '%s'"
+							String.format(MemberQuery.SELECT_OVERLAP_USER.toString()
 								    , member.getName() , member.getSsn() ));
 			if(rs.next()) {
 				do{

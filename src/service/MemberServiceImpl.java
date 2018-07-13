@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService{
 	public boolean findById(String id) {
 		System.out.println("--중복되는 아이디 찾기--");
 		System.out.println(id);
-		return (MemberDAOImpl.getInstance().selectByWord(id)==null);
+		return (MemberDAOImpl.getInstance().selectById(id)==null);
 	}
 
 	@Override

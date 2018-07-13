@@ -17,7 +17,7 @@
 <body>
 	<table id="main-tab-Layout" class="width-80per height-650px margin-auto">
 		<tr class="height-100px">
-			<th colspan="2">GMS</th>
+			<th colspan="2">★  우 윳 빛 깔 최 소 진 ★ </th>
 		</tr>
 		<tr>
 			<td class="width-70per"><img class="width-60per margin-auto" src="img/home/lighthouse.jpg" alt="" /></td>
