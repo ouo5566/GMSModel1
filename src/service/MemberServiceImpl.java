@@ -1,6 +1,4 @@
 package service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import dao.MemberDAOImpl;
@@ -13,56 +11,50 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void createMember(MemberBean member) {
-		System.out.println("--회원가입--");
-		System.out.println(member);
 		MemberDAOImpl.getInstance().insertMember(member);
 	}
 
 	@Override
 	public List<MemberBean> list() {
-		List<MemberBean> list = new ArrayList<>();
-		return list;
+		return MemberDAOImpl.getInstance().selectMemberAll();
 	}
 
 	@Override
-	public boolean findById(String id) {
-		System.out.println("--중복되는 아이디 찾기--");
-		System.out.println(id);
+	public boolean findByOverlabId(String id) {
 		return (MemberDAOImpl.getInstance().selectById(id)==null);
 	}
-
+	
 	@Override
-	public MemberBean findById(MemberBean member) {
-		MemberBean result = new MemberBean();
-		return result;
+	public MemberBean findById(String id) {
+		return MemberDAOImpl.getInstance().selectById(id);
 	}
 
 	@Override
+	public List<MemberBean> findByTeamId(String team){
+		return MemberDAOImpl.getInstance().selectByTeamId(team);
+	}
+	
+	@Override
 	public String memberCount() {
-		String result = "";
-		return result;
+		return MemberDAOImpl.getInstance().selectMemberCount();
 	}
 
 	@Override
 	public void modifyMember(MemberBean member) {
-		
+		MemberDAOImpl.getInstance().updateMember(member);
 	}
 
 	@Override
 	public void removeMember(MemberBean member) {
-		
+		MemberDAOImpl.getInstance().deleteMember(member);
 	}
 	@Override
 	public boolean login(MemberBean member) {
-		System.out.println("--로그인--");
-		System.out.println(member);
 		return (MemberDAOImpl.getInstance().login(member)!=null);
 		// null 도 주소값을 가지고 있다. 직접 그 주소값에 가서 뒤져야 하기 때문에 null을 Script까지 가져가는건 좋지 않다.
 	}
 	@Override
 	public boolean findByUser(MemberBean member){
-		System.out.println("--계정찾기--");
-		System.out.println(member);
 		return (MemberDAOImpl.getInstance().selectUser(member)==null);
 	}
 

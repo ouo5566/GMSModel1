@@ -21,38 +21,72 @@ public class MemberDAOImpl implements MemberDAO{
 					.getConnection().createStatement().executeUpdate(
 							String.format(MemberQuery.INSERT_MEMBER.toString(),
 									member.getMemberId(), member.getPassword(), member.getName(), member.getSsn()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 	@Override
 	public List<MemberBean> selectMemberAll() {
-		return null;
+		List<MemberBean> list = new ArrayList<>();
+		try {
+			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+					.getConnection().createStatement().executeQuery(MemberQuery.SELECT_ALL.toString());
+			MemberBean mem = null;
+			while(rs.next()) {
+				mem = new MemberBean();
+				mem.setMemberId(rs.getString("MEMID"));				
+				mem.setName(rs.getString("NAME"));				
+				mem.setPassword(rs.getString("PW"));				
+				mem.setRoll(rs.getString("ROLL"));				
+				mem.setSsn(rs.getString("SSN"));				
+				mem.setTeamId(rs.getString("TEAMID"));				
+				list.add(mem);
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		return list;
 	}
+	
+	@Override
+	public List<MemberBean> selectByTeamId(String team) {
+		List<MemberBean> list = new ArrayList<>();
+		try {
+			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+					.getConnection().createStatement().executeQuery(
+							String.format(MemberQuery.SELECT_TEAM.toString(), team));
+			MemberBean mem = null;
+			while(rs.next()) {
+				mem = new MemberBean();
+				mem.setMemberId(rs.getString("MEMID"));
+				mem.setTeamId(rs.getString("TEAMID"));
+				mem.setName(rs.getString("NAME"));
+				mem.setRoll(rs.getString("ROLL"));
+				mem.setPassword(rs.getString("PW"));
+				mem.setSsn(rs.getString("SSN"));
+				list.add(mem);
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		return list;
+	}
+	
 	@Override
 	public MemberBean selectById(String id) {
-		System.out.println("--아이디찾기--");
-		System.out.println(id);
 		MemberBean mem = null;
 		try {
 			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
 					.getConnection().createStatement().executeQuery(
-							String.format(MemberQuery.SELECT_OVERLAP_ID.toString()
+							String.format(MemberQuery.SELECT_ID.toString()
 									, id));
-			System.out.println("--쿼리실행--");
 			if(rs.next()) {
 				do{
 					mem = new MemberBean();
-					mem.setMemberId(rs.getString("USERID"));
+					mem.setMemberId(rs.getString("MEMID"));
+					mem.setTeamId(rs.getString("TEAMID"));
+					mem.setName(rs.getString("NAME"));
+					mem.setRoll(rs.getString("ROLL"));
+					mem.setPassword(rs.getString("PW"));
+					mem.setSsn(rs.getString("SSN"));
 				}while(rs.next());
 			}		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("--쿼리끝--");
-		System.out.println("--mem--");
-		System.out.println(mem);
+		} catch (Exception e) {e.printStackTrace();}
 		return mem;
 	}
 	
@@ -62,16 +96,35 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 	@Override
 	public String selectMemberCount() {
-		return null;
+		String result = "";
+		try {
+			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+					.getConnection().createStatement().executeQuery(MemberQuery.COUNT_MEMBER.toString());
+			while(rs.next()) {
+				result = rs.getString("NMEMBER");	
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		return result;
 	}
 	@Override
 	public void updateMember(MemberBean member) {
-		
+		String[] arr = member.getPassword().split("/");
+		try {
+			DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+					.getConnection().createStatement().executeUpdate(String.format(MemberQuery.UPDATE_MEMBER.toString(),
+							arr[1],member.getMemberId(),arr[0]));
+		} catch (Exception e) {e.printStackTrace();}
 	}
+	
 	@Override
 	public void deleteMember(MemberBean member) {
-		
+		try {
+			DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstants.USERNAME, DBConstants.PASSWORD)
+				.getConnection().createStatement().executeUpdate(String.format(MemberQuery.DELETE_MEMBER.toString(),
+					member.getMemberId(), member.getPassword()));
+		} catch (Exception e) {e.printStackTrace();}
 	}
+	
 	@Override
 	public MemberBean login(MemberBean member) {
 		MemberBean mem = null;
@@ -91,9 +144,7 @@ public class MemberDAOImpl implements MemberDAO{
 					mem.setPassword(rs.getString("PW"));
 				}while(rs.next());
 			}			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 		return mem;
 	}
 	
@@ -111,9 +162,7 @@ public class MemberDAOImpl implements MemberDAO{
 					mem.setMemberId(rs.getString("USERID"));
 				}while(rs.next());
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 		return mem;
 	}
 	

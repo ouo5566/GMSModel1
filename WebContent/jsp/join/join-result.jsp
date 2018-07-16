@@ -29,7 +29,7 @@
 				if(!MemberServiceImpl.getInstance().findByUser(m)){
 					%> <h4> 해당 정보로 <br> 존재하는 계정이  <br> 있습니다. </h4>
 						<a href="../login/main.jsp"><button class="butt">ID찾기</button></a><%
-				}else if(!MemberServiceImpl.getInstance().findById(id)){
+				}else if(!MemberServiceImpl.getInstance().findByOverlabId(id)){
 					%> <h3> 중복된 아이디입니다. </h3>
 					<a href="join-form.jsp"><button class="butt">BACK</button></a><%
 				}else{
